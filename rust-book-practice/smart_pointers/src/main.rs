@@ -38,6 +38,14 @@ impl Drop for CustomSmartPointer {
     }
 }
 
+enum MulList {
+    MulCons(i32, Rc<MulList>),
+    MulNil,
+}
+
+use crate::MulList::{MulCons, MulNil};
+use std::rc::Rc;
+
 fn main() {
     let b = Box::new(5);
     println!("b = {}", b);
@@ -74,4 +82,19 @@ fn main() {
     println!("CustomSmartPointers created.");
     drop(c);
     println!("CustomSmartPointers dropped before the end of main.");
+
+    
+    let a = Rc::new(MulCons(5, Rc::new(MulCons(10, Rc::new(MulNil)))));
+    let b = MulCons(3, Rc::clone(&a));
+    let c = MulCons(4, Rc::clone(&a));
+
+    let a = Rc::new(MulCons(5, Rc::new(MulCons(10, Rc::new(MulNil)))));
+    println!("count after creating a = {}", Rc::strong_count(&a));
+    let b = MulCons(3, Rc::clone(&a));
+    println!("count after creating b = {}", Rc::strong_count(&a));
+    {
+        let c = MulCons(4, Rc::clone(&a));
+        println!("count after creating c = {}", Rc::strong_count(&a));
+    }
+    println!("count after c goes out of scope = {}", Rc::strong_count(&a));
 }
