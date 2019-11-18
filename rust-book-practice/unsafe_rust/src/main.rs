@@ -14,6 +14,18 @@ fn split_at_mut(slice: &mut [i32], mid: usize) -> (&mut [i32], &mut [i32]) {
     }
 }
 
+extern "C" {
+    fn abs(input: i32) -> i32;
+}
+
+static mut COUNTER: u32 = 0;
+
+fn add_to_count(inc: u32) {
+    unsafe {
+        COUNTER += inc;
+    }
+}
+
 fn main() {
     unsafe {
         dangerrous();
@@ -28,4 +40,16 @@ fn main() {
 
     assert_eq!(a, &mut [1, 2, 3]);
     assert_eq!(b, &mut [4, 5, 6]);
+
+    // ---
+    unsafe {
+        println!("Absolute value of -3 according to C: {}", abs(-3));
+    }
+
+    // ---
+    add_to_count(3);
+
+    unsafe {
+        println!("COUNTER: {}", COUNTER);
+    }
 }
