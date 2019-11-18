@@ -9,8 +9,10 @@ fn split_at_mut(slice: &mut [i32], mid: usize) -> (&mut [i32], &mut [i32]) {
     assert!(mid <= len);
 
     unsafe {
-        (slice::from_raw_parts_mut(ptr, mid),
-         slice::from_raw_parts_mut(ptr.offset(mid as isize), len - mid))
+        (
+            slice::from_raw_parts_mut(ptr, mid),
+            slice::from_raw_parts_mut(ptr.offset(mid as isize), len - mid),
+        )
     }
 }
 
@@ -67,4 +69,3 @@ fn main() {
         println!("COUNTER: {}", COUNTER);
     }
 }
->>>>>>> 3c0c7f83cf9178fd50af87850619dd3307554289
