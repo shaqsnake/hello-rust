@@ -95,16 +95,31 @@ impl fmt::Display for Point {
 
 impl OutlinePrint for Point {}
 
+struct Wrapper(Vec<String>);
+
+impl fmt::Display for Wrapper {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "[{}]", self.0.join(", "))
+    }
+}
+
 fn main() {
     assert_eq!(Point { x: 1, y: 0 } + Point { x: 2, y: 3 }, Point { x: 3, y: 3 });
 
+    // ------
     let person = Human;
     Pilot::fly(&person);
     Wizard::fly(&person);
     person.fly();
 
+    // ------
     println!("A baby dog is called a {}", Dog::baby_name());
     println!("A baby dog is called a {}", <Dog as Animal>::baby_name());
 
+    // ------
     Point { x: 1, y: 2 }.outline_print();
+
+    // ------
+    let w = Wrapper(vec![String::from("hello"), String::from("world")]);
+    println!("w = {}", w);
 }
