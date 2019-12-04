@@ -1,0 +1,1 @@
+[The Rust Programming Language - Ch19.4 Advanced Functions and Closures](https://doc.rust-lang.org/book/ch19-05-advanced-functions-and-closures.html)
